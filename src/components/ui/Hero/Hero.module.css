@@ -1,0 +1,125 @@
+
+.hero{
+    width: 100%;
+    /* background-color: red; */
+
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: space-between;
+    align-items: center;
+
+}
+.heroContent{
+    /* background-color: blue; */
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+   
+}
+.title{
+max-width: 470px;
+font-size: 52px;
+line-height: 58px;
+font-weight: 900;
+letter-spacing: normal;
+
+    /* background-color: aqua; */
+
+    font-family: var(--font-playfair), serif;
+}
+.subtitle{
+    max-width: 470px;
+
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 300;
+    letter-spacing: normal;
+    
+    /* background-color: blueviolet; */
+}
+.StatCard{
+    /* background-color: green; */
+
+    display: flex;
+    flex-direction: row;
+}
+.StatCardContentRight,
+.StatCardContentCenter,
+.StatCardContentLeft{
+    background-color: #2D1F0E;
+
+    padding: 20px 28px;
+
+
+
+}
+.StatCardContentRight{
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+}
+.StatCardContentLeft{
+
+
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.StatCardContentTitle{
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    line-height: normal;
+    font-weight: 700;
+    letter-spacing: normal;
+
+    color: #F5F0E8;
+
+}
+.StatCardContentText{
+    font-family: 'Times New Roman';
+    font-size: 16px;
+    line-height: normal;
+    font-weight: 400;
+    letter-spacing: 1.1px;
+    color: #9A8674;
+
+}
+
+@media screen and (max-width: 968px) {
+    .hero{
+        flex-direction: column;
+        gap: 32px;
+    }
+    .title,
+    .subtitle{
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 500px) {
+       .hero{ 
+        gap: 25px;
+    }
+    .title {
+        font-size: 36px;
+        line-height: 40px;
+        font-weight: 800;
+        letter-spacing: normal;
+    }
+    .subtitle {
+        font-size: 14px;
+        line-height: 22px;
+    }
+    .StatCardContentRight,
+    .StatCardContentCenter,
+    .StatCardContentLeft {
+        padding: 12px 16px;
+    }
+    .StatCardContentTitle {
+        font-size: 20px;
+        line-height: normal;
+        font-weight: 700;
+        letter-spacing: normal;
+    }
+}
