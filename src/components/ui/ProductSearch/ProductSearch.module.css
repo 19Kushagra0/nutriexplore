@@ -1,0 +1,56 @@
+.ProductSearch{
+    width: 100%;
+    /* background-color: red; */
+
+    margin-top: 50px;
+
+    display: flex;
+    flex-direction: column;
+}
+.searchFilterContainer{
+    width: 100%;
+    /* background-color: blue; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+.searchContainer{
+    width: 100%;
+    background-color: white;
+
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: row;
+    padding: 10px 15px;
+
+    gap: 10px;
+
+        border: 1.5px solid rgb(212, 201, 184);
+
+}
+.searchContainerInput{
+    width: 100%;
+    /* background-color: yellow; */
+
+    outline: none;
+
+}
+.filterButton{
+    background-color: rgb(218, 193, 145);
+    padding: 10px;
+
+    border-radius: 12px;
+
+        border: 1.5px solid rgb(212, 201, 184);
+
+}
+.optionsContainer{
+    width: 100%;
+    height: 100px;
+    /* background-color: green; */
+}
