@@ -1,56 +1,81 @@
-.ProductSearch{
-    width: 100%;
-    /* background-color: red; */
+.ProductSearch {
+  width: 100%;
+  /* background-color: red; */
 
-    margin-top: 50px;
+  margin-top: 50px;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-.searchFilterContainer{
-    width: 100%;
-    /* background-color: blue; */
+.searchFilterContainer {
+  width: 100%;
+  /* background-color: blue; */
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
-    gap: 20px;
+  gap: 20px;
 }
-.searchContainer{
-    width: 100%;
-    background-color: white;
+.searchContainer {
+  width: 100%;
+  background-color: white;
 
-    border-radius: 8px;
+  border-radius: 8px;
 
-    display: flex;
-    flex-direction: row;
-    padding: 10px 15px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 15px;
 
-    gap: 10px;
+  gap: 10px;
 
-        border: 1.5px solid rgb(212, 201, 184);
+  border: 1.5px solid rgb(212, 201, 184);
 
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
-.searchContainerInput{
-    width: 100%;
-    /* background-color: yellow; */
 
-    outline: none;
-
+/* Glow the whole search bar when the input inside is focused */
+.searchContainer:focus-within {
+  border-color: #2d1f0e;
+  box-shadow: 0 0 0 3px rgba(45, 31, 14, 0.1);
 }
-.filterButton{
-    background-color: rgb(218, 193, 145);
-    padding: 10px;
+.searchContainerInput {
+  width: 100%;
+  /* background-color: yellow; */
 
-    border-radius: 12px;
-
-        border: 1.5px solid rgb(212, 201, 184);
-
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #2d1f0e;
+  font-family: "Times New Roman", Times, serif;
 }
-.optionsContainer{
-    width: 100%;
-    height: 100px;
-    /* background-color: green; */
+.filterButton {
+  background-color: rgb(218, 193, 145);
+  padding: 10px;
+
+  border-radius: 12px;
+
+  border: 1.5px solid rgb(212, 201, 184);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.filterButton:hover {
+  background-color: #c8a97a;
+  border-color: #b89060;
+}
+
+.filterButton:active {
+  transform: scale(0.93);
+  background-color: #b07a40;
+}
+.optionsContainer {
+  width: 100%;
+  height: 100px;
+  /* background-color: green; */
 }

@@ -55,8 +55,6 @@
   gap: 10px;
 }
 .navButton {
-  /* background-color: hotpink; */
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,9 +63,19 @@
   border-radius: 8px;
 
   color: #2d1f0e;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
 }
 .navButton:hover {
   background-color: #2d1f0e;
+  color: #f5f0e8;
+}
+.navButton:active {
+  transform: scale(0.95);
+  background-color: #1e1509;
   color: #f5f0e8;
 }
 .hamburger {
