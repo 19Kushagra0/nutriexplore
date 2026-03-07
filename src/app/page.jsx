@@ -1,8 +1,5 @@
-import Shop from "./shop/page";
+import Login from "./login/page";
+
 export default function Home() {
-  return (
-    <div className="">
-      <Shop />
-    </div>
-  );
+  return <Login />;
 }

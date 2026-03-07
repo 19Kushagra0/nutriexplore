@@ -16,15 +16,21 @@
   flex: 1;
   min-width: 260px;
   max-width: 290px;
-  /* background-color: red; */
-
-  /* border: 1px solid black; */
 
   border-radius: 12px;
 
   position: relative;
 
   background-color: white;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(45, 31, 14, 0.12);
 }
 
 .ghost {
@@ -162,16 +168,41 @@
   color: #6b5740;
 }
 .CartButton {
-  /* background-color: blue; */
   padding: 6px 12px;
   border-radius: 8px;
 
   font-size: 12px;
   line-height: normal;
   font-weight: 600;
-  letter-spacing: normal;
-  color: #f5f0e8;
+  letter-spacing: 0.3px;
+  font-family: "Times New Roman", Times, serif;
+
+  /* Ghost style — outlined, transparent background */
+  color: #2d1f0e;
+  background-color: transparent;
+  border: 1.5px solid #2d1f0e;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.CartButton:hover {
+  /* Inverts to solid on hover */
   background-color: #2d1f0e;
+  color: #f5f0e8;
+}
+
+.CartButton:active {
+  transform: scale(0.95);
+  background-color: #1e1509;
+}
+
+.CartButton:disabled {
+  background-color: #9a8674;
+  cursor: not-allowed;
+  transform: none;
 }
 
 @media screen and (max-width: 1240px) {
