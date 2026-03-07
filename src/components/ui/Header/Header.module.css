@@ -79,11 +79,35 @@
   color: #f5f0e8;
 }
 .hamburger {
-  padding: 5px;
-  /* background-color: darkcyan; */
+  padding: 7px;
   border-radius: 8px;
+  cursor: pointer;
 
   display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: transparent;
+  border: none;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.hamburger:hover {
+  background-color: #2d1f0e;
+}
+
+/* Invert the SVG icon to white on hover */
+.hamburger:hover img {
+  filter: invert(1);
+}
+
+.hamburger:active {
+  transform: scale(0.9);
+  background-color: #1e1509;
 }
 @media (max-width: 1300px) {
   .header {
