@@ -1,8 +1,60 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import style from "./Create.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Create() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+    setLoading(true);
+
+    try {
+      const res = await fetch("api/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          confirmPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Use the error message from our API, or a fallback
+        const message = data.message || data.error || "Login failed";
+        setError(message);
+        // alert(message);
+        return;
+      }
+
+      console.log("Login success:", data);
+      router.push("/login");
+      // Here you would typically redirect the user
+      // router.push("/shop");
+    } catch (err) {
+      // Handles network errors (e.g., server offline)
+      const message = "Something went wrong. Please try again.";
+      setError(message);
+      // alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className={style.page}>
       {/* Left decorative panel */}
@@ -31,7 +83,15 @@ export default function Create() {
             </p>
           </div>
 
-          <form className={style.form} noValidate>
+          {error && (
+            <p
+              className={style.errorMessage}
+              style={{ color: "red", marginBottom: "1rem" }}
+            >
+              {error}
+            </p>
+          )}
+          <form className={style.form} onSubmit={handleSubmit}>
             {/* Full name */}
             <div className={style.field}>
               <label htmlFor="name" className={style.label}>
@@ -45,6 +105,8 @@ export default function Create() {
                 placeholder="Jane Doe"
                 autoComplete="name"
                 required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
 
@@ -61,6 +123,8 @@ export default function Create() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -77,6 +141,8 @@ export default function Create() {
                 placeholder="••••••••"
                 autoComplete="new-password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
@@ -93,11 +159,17 @@ export default function Create() {
                 placeholder="••••••••"
                 autoComplete="new-password"
                 required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
             {/* Submit */}
-            <button type="submit" className={style.submitBtn}>
+            <button
+              type="submit"
+              className={style.submitBtn}
+              disabled={loading}
+            >
               Create account
             </button>
           </form>

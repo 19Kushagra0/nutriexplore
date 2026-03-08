@@ -1,8 +1,56 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import style from "./Login.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+    setLoading(true);
+
+    try {
+      const res = await fetch("api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Use the error message from our API, or a fallback
+        const message = data.message || data.error || "Login failed";
+        setError(message);
+        // alert(message);
+        return;
+      }
+
+      console.log("Login success:", data);
+      router.push("/shop");
+      // Here you would typically redirect the user
+      // router.push("/shop");
+    } catch (err) {
+      // Handles network errors (e.g., server offline)
+      const message = "Something went wrong. Please try again.";
+      setError(message);
+      // alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className={style.page}>
       {/* Left decorative panel */}
@@ -31,7 +79,21 @@ export default function Login() {
             </p>
           </div>
 
-          <form className={style.form} noValidate>
+          {/* Show error message if it exists */}
+          {error && (
+            <div
+              style={{
+                color: "#c0392b",
+                fontSize: "14px",
+                marginBottom: "16px",
+                textAlign: "center",
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          <form className={style.form} onSubmit={handleSubmit}>
             {/* Email field */}
             <div className={style.field}>
               <label htmlFor="email" className={style.label}>
@@ -45,6 +107,8 @@ export default function Login() {
                 placeholder="you@example.com"
                 autoComplete="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -54,9 +118,9 @@ export default function Login() {
                 <label htmlFor="password" className={style.label}>
                   Password
                 </label>
-                <Link href="/forgot-password" className={style.forgotLink}>
+                {/* <Link href="/forgot-password" className={style.forgotLink}>
                   Forgot password?
-                </Link>
+                </Link> */}
               </div>
               <input
                 id="password"
@@ -66,18 +130,24 @@ export default function Login() {
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             {/* Submit button */}
-            <button type="submit" className={style.submitBtn}>
-              Sign in
+            <button
+              type="submit"
+              className={style.submitBtn}
+              disabled={loading}
+            >
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
           <p className={style.signupPrompt}>
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className={style.signupLink}>
+            <Link href="/create" className={style.signupLink}>
               Sign up
             </Link>
           </p>
