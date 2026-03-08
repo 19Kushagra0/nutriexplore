@@ -1,8 +1,19 @@
+"use client";
 import React from "react";
 import style from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 export default function Header() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const res = await fetch("/api/logout", { method: "POST" });
+    if (res.ok) {
+      router.replace("/login");
+    }
+  };
   return (
     <header className={style.header}>
       <Link className={style.logo} href="/shop">
@@ -10,20 +21,20 @@ export default function Header() {
         <h2 className={style.logoText}>Food intelligence</h2>
       </Link>
       <nav className={style.navbar}>
-        <Link className={style.navButton} href="/shop/products">
-          Products
+        <Link className={style.navButton} href="/cart">
+          Cart
         </Link>
-        <Link
+        {/* <Link
           className={`${style.navButton} text-red-500`}
           href="/shop/discover"
         >
           Discover
+        </Link> */}
+        <Link className={style.navButton} href="/shop">
+          Shop
         </Link>
-        <Link className={style.navButton} href="/about">
-          About
-        </Link>
-        <Link className={style.navButton} href="/cart">
-          Cart
+        <Link onClick={handleLogout} className={style.navButton} href="/login">
+          Logout
         </Link>
       </nav>
       <button className={style.hamburger}>
