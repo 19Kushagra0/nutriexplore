@@ -31,5 +31,5 @@ export async function proxy(request) {
 
 // dont forget to export the config else it will work weirdlyW
 export const config = {
-  matcher: ["/shop/:path*"],
+  matcher: ["/shop/:path*", "/cart/:path*"],
 };
