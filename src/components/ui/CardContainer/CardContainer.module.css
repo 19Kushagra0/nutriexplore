@@ -27,6 +27,9 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
+.card {
+  height: fit-content;
+}
 
 .card:hover {
   transform: translateY(-4px);
@@ -41,7 +44,7 @@
 .grade {
   width: 36px;
   height: 36px;
-  background-color: green;
+  /* background-color: green; */
 
   border-radius: 100px;
 
@@ -55,6 +58,12 @@
 
   top: 14px;
   right: 14px;
+
+  z-index: 9;
+  color: white;
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 800;
 }
 .cardImage {
   width: 100%;
@@ -153,7 +162,7 @@
 }
 .nutritionLevel {
   background-color: #2d6a4f;
-  width: 92%;
+  /* width: 92%; */
   height: 100%;
 
   border-radius: 10px;
@@ -168,6 +177,7 @@
   color: #6b5740;
 }
 .CartButton {
+  min-width: 65px;
   padding: 6px 12px;
   border-radius: 8px;
 

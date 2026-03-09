@@ -1,13 +1,14 @@
-.container{
-    padding: 95px 10%;
-} 
+.container {
+  padding: 95px 10%;
+  min-height: 100vh;
+}
 @media (max-width: 1300px) {
-    .container{
-        padding: 90px 5%;
-    }
-} 
+  .container {
+    padding: 90px 5%;
+  }
+}
 @media (max-width: 500px) {
-    .container{ 
-        padding: 100px 5%;
-    }
-}  
+  .container {
+    padding: 100px 5%;
+  }
+}
