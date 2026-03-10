@@ -38,6 +38,7 @@ export default function CardContainer({ products }) {
                   <div className={style.nutritionBar}>
                     <div
                       style={{
+                        backgroundColor: "#2d6a4f",
                         width: `${Math.round(10 - (((el.nutriscore_score || 0) + 15) / 55) * 9) * 10}%`,
                       }}
                       className={style.nutritionLevel}
