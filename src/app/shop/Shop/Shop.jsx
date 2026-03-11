@@ -5,12 +5,12 @@ import CardContainer from "@/components/ui/CardContainer/CardContainer";
 import { getProducts } from "@/lib/products";
 
 export default async function Shop() {
-  const products = await getProducts();
+  const data = await getProducts();
   return (
     <div className={style.container}>
       <Hero />
       <ProductSearch />
-      <CardContainer products={products} />
+      <CardContainer data={data} />
     </div>
   );
 }

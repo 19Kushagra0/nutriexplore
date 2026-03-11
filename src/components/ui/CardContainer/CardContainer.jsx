@@ -1,10 +1,31 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import style from "./CardContainer.module.css";
 import Image from "next/image";
+import { getProducts } from "@/lib/products";
+import { useInView } from "react-intersection-observer";
 
-export default function CardContainer({ products }) {
-  console.log(products);
+export default function CardContainer({ data }) {
+  const [count, setCount] = useState(1);
+  // Initialize state with the initial data.
+  // This sets up the array so we can add more products to it later.
+  const [products, setProducts] = useState(data || []);
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      setCount((prev) => prev + 1);
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (count === 1) return;
+    const loadProducts = async () => {
+      const newProducts = await getProducts(count);
+      setProducts((prev) => [...prev, ...newProducts]);
+    };
+    loadProducts();
+  }, [count]);
   return (
     <div className={style.cardContainer}>
       {products.map((el, index) => {
@@ -61,6 +82,10 @@ export default function CardContainer({ products }) {
       <div className={style.ghost}></div>
       <div className={style.ghost}></div>
       <div className={style.ghost}></div>
+
+      <div ref={ref} style={{ height: "50px" }}>
+        Loading more...
+      </div>
     </div>
   );
 }
