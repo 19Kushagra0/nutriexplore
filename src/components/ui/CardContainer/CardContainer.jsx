@@ -23,10 +23,17 @@ export default function CardContainer({ data }) {
     if (count === 1) return;
     if (isLoading) return;
     setIsLoading(true);
+
     const loadProducts = async () => {
-      const newProducts = await getProducts(count);
-      setProducts((prev) => [...prev, ...newProducts]);
-      setIsLoading(false);
+      console.log("new products loading...");
+      try {
+        const newProducts = await getProducts(count);
+        setProducts((prev) => [...prev, ...newProducts]);
+      } catch (error) {
+        console.error("error loading new products from api", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadProducts();
   }, [count]);
@@ -34,7 +41,7 @@ export default function CardContainer({ data }) {
     <div className={style.cardContainer}>
       {products.map((el, index) => {
         return (
-          <div key={index} className={style.card}>
+          <div key={el.code} className={style.card}>
             <div style={{ backgroundColor: "green" }} className={style.grade}>
               {el.nutriscore_grade?.toUpperCase()}
             </div>
