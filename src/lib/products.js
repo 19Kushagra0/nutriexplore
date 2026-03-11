@@ -1,11 +1,32 @@
-export async function getProducts(page = 1) {
-  const res = await fetch(
-    `https://world.openfoodfacts.org/cgi/search.pl?search_terms=milk&json=1&page=${page}&page_size=20`,
-    {
-      next: { revalidate: 3600 },
-    },
-  );
+"use server";
 
-  const data = await res.json();
-  return data.products;
+export async function getProducts(page = 1) {
+  try {
+    const res = await fetch(
+      `https://world.openfoodfacts.org/cgi/search.pl?search_terms=milk&json=1&page=${page}&page_size=20`,
+      {
+        headers: {
+          "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
+        },
+        next: { revalidate: 3600 },
+      },
+    );
+
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("text/html")) {
+      console.error("API returned HTML instead of JSON. Status:", res.status);
+      return [];
+    }
+
+    if (!res.ok) {
+      console.error("API Error Status:", res.status);
+      return [];
+    }
+
+    const data = await res.json();
+    return data.products || [];
+  } catch (error) {
+    console.error("Fetch error in getProducts:", error);
+    return [];
+  }
 }
