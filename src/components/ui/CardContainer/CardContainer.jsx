@@ -6,6 +6,7 @@ import { getProducts } from "@/lib/products";
 import { useInView } from "react-intersection-observer";
 
 export default function CardContainer({ data }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(1);
   // Initialize state with the initial data.
   // This sets up the array so we can add more products to it later.
@@ -20,9 +21,12 @@ export default function CardContainer({ data }) {
 
   useEffect(() => {
     if (count === 1) return;
+    if (isLoading) return;
+    setIsLoading(true);
     const loadProducts = async () => {
       const newProducts = await getProducts(count);
       setProducts((prev) => [...prev, ...newProducts]);
+      setIsLoading(false);
     };
     loadProducts();
   }, [count]);
