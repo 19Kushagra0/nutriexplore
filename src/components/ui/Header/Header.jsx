@@ -21,18 +21,18 @@ export default function Header() {
         <h2 className={style.logoText}>Food intelligence</h2>
       </Link>
       <nav className={style.navbar}>
-        <Link className={style.navButton} href="/cart">
+        {/* <Link className={style.navButton} href="/cart">
           Cart
-        </Link>
+        </Link> */}
         {/* <Link
           className={`${style.navButton} text-red-500`}
           href="/shop/discover"
         >
           Discover
         </Link> */}
-        <Link className={style.navButton} href="/shop">
+        {/* <Link className={style.navButton} href="/shop">
           Shop
-        </Link>
+        </Link> */}
         <Link onClick={handleLogout} className={style.navButton} href="/login">
           Logout
         </Link>

@@ -28,7 +28,12 @@
     box-shadow 0.2s ease;
 }
 .card {
-  height: fit-content;
+  min-height: 400px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
 }
 
 .card:hover {
@@ -42,7 +47,9 @@
   height: 0px;
 }
 .grade {
-  width: 36px;
+  padding: 0px 10px;
+  width: fit-content;
+  min-width: 36px;
   height: 36px;
   /* background-color: green; */
 
@@ -68,7 +75,8 @@
 .cardImage {
   width: 100%;
   height: 200px;
-  background-color: yellowgreen;
+  /* background-color: yellowgreen; */
+  background-color: #b8a898;
 
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -129,6 +137,8 @@
   margin-top: 8px;
 }
 .nutritionCartContainer {
+  padding: 0px 10px;
+  padding-bottom: 20px;
   /* background-color: firebrick; */
 
   display: flex;
@@ -230,7 +240,7 @@
 @media screen and (max-width: 895px) {
   .card,
   .ghost {
-    max-width: 400px;
+    max-width: 420px;
   }
 }
 @media screen and (max-width: 610px) {
