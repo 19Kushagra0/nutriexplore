@@ -8,6 +8,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.openfoodfacts.org",
       },
+      {
+        protocol: "https",
+        hostname: "blocks.astratic.com",
+      },
     ],
   },
 };

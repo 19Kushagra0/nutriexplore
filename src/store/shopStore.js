@@ -8,7 +8,7 @@ export const useShopStore = create((set) => ({
     set((state) => {
       const existingCodes = new Set(state.products.map((p) => p.code));
       const uniqueNewProducts = newProducts.filter(
-        (p) => !existingCodes.has(p.code)
+        (p) => !existingCodes.has(p.code),
       );
       return {
         products: [...state.products, ...uniqueNewProducts],
