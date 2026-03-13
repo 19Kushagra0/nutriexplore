@@ -10,7 +10,9 @@ export default function CardContainer({ data }) {
   const { products, addProducts, page, setPage } = useShopStore();
   const [isLoading, setIsLoading] = useState(false);
   const lastFetchedPage = useRef(page);
-  const { ref, inView } = useInView();
+  // const { ref, inView } = useInView();
+  const { ref, inView } = useInView({ rootMargin: "14000px" });
+
   useEffect(() => {
     if (products.length === 0) {
       addProducts(data);
