@@ -22,7 +22,7 @@ export default function CardContainer({ data }) {
     if (inView && !isLoading) {
       setPage(page + 1);
     }
-  }, [inView]);
+  }, [inView, isLoading]);
 
   useEffect(() => {
     if (page === 1 || page <= lastFetchedPage.current) return;
