@@ -11,7 +11,7 @@ export default function CardContainer({ data }) {
   const [isLoading, setIsLoading] = useState(false);
   const lastFetchedPage = useRef(page);
   // const { ref, inView } = useInView();
-  const { ref, inView } = useInView({ rootMargin: "14000px" });
+  const { ref, inView } = useInView({ rootMargin: "13000px" });
 
   useEffect(() => {
     if (products.length === 0) {
