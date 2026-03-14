@@ -4,6 +4,16 @@ export const useShopStore = create((set) => ({
   products: [],
   page: 1,
 
+  activeSort: "none",
+  activeCategory: "all",
+
+  setFilters: (activeSort, activeCategory) => {
+    set({
+      activeSort,
+      activeCategory,
+    });
+  },
+
   addProducts: (newProducts) =>
     set((state) => {
       const existingCodes = new Set(state.products.map((p) => p.code));

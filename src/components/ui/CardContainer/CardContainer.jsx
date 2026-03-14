@@ -2,12 +2,14 @@
 import { useEffect, useState, useRef } from "react";
 import style from "./CardContainer.module.css";
 import { getProducts } from "@/lib/products";
+import { sortAndFilterProducts } from "@/lib/productUtils";
 import { useInView } from "react-intersection-observer";
 import { useShopStore } from "@/store/shopStore";
 import Card from "../Card/Card";
 
 export default function CardContainer({ data }) {
-  const { products, addProducts, page, setPage } = useShopStore();
+  const { products, addProducts, page, setPage, activeSort, activeCategory } =
+    useShopStore();
   const [isLoading, setIsLoading] = useState(false);
   const lastFetchedPage = useRef(page);
   const { ref, inView } = useInView({ rootMargin: "6000px" });
@@ -44,10 +46,18 @@ export default function CardContainer({ data }) {
     };
     loadProducts();
   }, [page]);
+
+  const sortedAndFilteredProductsArray = sortAndFilterProducts(
+    products,
+    activeSort,
+    activeCategory,
+  );
+  console.log(sortedAndFilteredProductsArray);
+
   return (
     <>
       <div className={style.cardContainer}>
-        {products.map((el) => (
+        {sortedAndFilteredProductsArray.map((el) => (
           <Card key={el.code} el={el} />
         ))}
 

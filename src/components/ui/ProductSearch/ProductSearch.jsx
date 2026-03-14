@@ -2,10 +2,22 @@
 import React, { useState } from "react";
 import style from "./ProductSearch.module.css";
 import Image from "next/image";
+import { useShopStore } from "@/store/shopStore";
 
 export default function ProductSearch() {
+  const { setFilters } = useShopStore();
   const [filterOpen, setFilterOpen] = useState(false);
+  const [sortValue, setSortValue] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
 
+  const appyButton = () => {
+    setFilters(sortValue, categoryValue);
+  };
+  const resetButton = () => {
+    setSortValue("");
+    setCategoryValue("");
+    setFilters("", "");
+  };
   return (
     <section className={style.ProductSearch}>
       {/* ── Top bar: search input + filter button ── */}
@@ -54,7 +66,11 @@ export default function ProductSearch() {
               <Image width={16} height={16} alt="" src={"/icons/filter.svg"} />
               Sort by
             </label>
-            <select className={style.filterSelect}>
+            <select
+              className={style.filterSelect}
+              value={sortValue}
+              onChange={(e) => setSortValue(e.target.value)}
+            >
               <option value="">— None —</option>
               <option value="name_asc">Name (A → Z)</option>
               <option value="name_desc">Name (Z → A)</option>
@@ -72,7 +88,11 @@ export default function ProductSearch() {
               <Image width={16} height={16} alt="" src={"/icons/filter.svg"} />
               Category
             </label>
-            <select className={style.filterSelect}>
+            <select
+              className={style.filterSelect}
+              value={categoryValue}
+              onChange={(e) => setCategoryValue(e.target.value)}
+            >
               <option value="">All Categories</option>
               <option value="beverages">Beverages</option>
               <option value="dairy">Dairy</option>
@@ -91,8 +111,12 @@ export default function ProductSearch() {
 
           {/* Apply / Reset buttons */}
           <div className={style.filterActions}>
-            <button className={style.applyButton}>Apply</button>
-            <button className={style.resetButton}>Reset</button>
+            <button onClick={appyButton} className={style.applyButton}>
+              Apply
+            </button>
+            <button onClick={resetButton} className={style.resetButton}>
+              Reset
+            </button>
           </div>
         </div>
       </div>
