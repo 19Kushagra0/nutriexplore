@@ -4,8 +4,8 @@ export const useShopStore = create((set) => ({
   products: [],
   page: 1,
 
-  activeSort: "none",
-  activeCategory: "all",
+  activeSort: "",
+  activeCategory: "",
 
   setFilters: (activeSort, activeCategory) => {
     set({
