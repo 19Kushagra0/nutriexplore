@@ -6,6 +6,8 @@ import Card from "@/components/ui/Card/Card";
 import { useSearchParams } from "next/navigation";
 import { searchProducts } from "@/lib/products";
 import { useInView } from "react-intersection-observer";
+import { useShopStore } from "@/store/shopStore";
+import { sortAndFilterProducts } from "@/lib/productUtils";
 
 // Placeholder: we will replace this with real search results later
 
@@ -14,6 +16,7 @@ export default function Search() {
   const query = searchParams.get("q");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { activeSort, activeCategory } = useShopStore();
   const [hasMore, setHasMore] = useState(false); // guard for infinite scroll
   // New states for infinite scroll
   const [page, setPage] = useState(1);
@@ -22,7 +25,7 @@ export default function Search() {
   // 1. Reset everything when the search query changes!
   useEffect(() => {
     setProducts([]); // Clear the old search results
-    setPage(1);      // Reset the infinite scroll back to page 1
+    setPage(1); // Reset the infinite scroll back to page 1
     setHasMore(false); // Disable scroll trigger until page 1 loads
   }, [query]);
 
@@ -89,9 +92,11 @@ export default function Search() {
         </p>
       ) : (
         <div className={style.cardContainer}>
-          {products.map((el) => (
-            <Card key={el.code} el={el} />
-          ))}
+          {sortAndFilterProducts(products, activeSort, activeCategory).map(
+            (el) => (
+              <Card key={el.code} el={el} />
+            ),
+          )}
         </div>
       )}
 
