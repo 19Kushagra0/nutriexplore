@@ -1,5 +1,3 @@
-"use server";
-
 export async function getProducts(page = 1) {
   try {
     const res = await fetch(
@@ -31,7 +29,7 @@ export async function getProducts(page = 1) {
   }
 }
 // src/lib/products.js
-export async function searchProducts(query, page = 1) {
+export async function searchProducts(query, page = 1, signal) {
   try {
     // Note the URL change here to use search_terms!
     const res = await fetch(
@@ -40,7 +38,7 @@ export async function searchProducts(query, page = 1) {
         headers: {
           "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
         },
-        next: { revalidate: 3600 },
+        signal: signal,
       },
     );
 
@@ -58,7 +56,10 @@ export async function searchProducts(query, page = 1) {
     const data = await res.json();
     return data.products || [];
   } catch (error) {
-    console.error("Fetch error in searchProducts:", error);
+    if (error.name === "AbortError") {
+      throw error; // <-- ADD THIS
+    }
+    // Return empty array silently to show "No products found", avoiding Next.js red error overlay
     return [];
   }
 }
