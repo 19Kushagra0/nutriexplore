@@ -26,6 +26,7 @@
 .searchContainer {
   flex: 1;
   background-color: #ffffff;
+
   border-radius: 10px;
   display: flex;
   flex-direction: row;
@@ -124,9 +125,10 @@
   width: 100%;
   /* Collapsed */
   max-height: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   opacity: 0;
   transform: translateY(-6px);
+
   transition:
     max-height 0.35s ease,
     opacity 0.3s ease,
@@ -265,4 +267,9 @@
 }
 .resetButton:active {
   background-color: #e0d4be;
+}
+@media screen and (max-width: 468px) {
+  .searchContainerInput {
+    width: 75%;
+  }
 }

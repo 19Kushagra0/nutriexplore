@@ -37,14 +37,14 @@ export default function Header() {
           Logout
         </Link>
       </nav>
-      <button className={style.hamburger}>
+      {/* <button className={style.hamburger}>
         <Image
           src={"/icons/hamburger.svg"}
           alt="hambergur"
           width={24}
           height={24}
         />
-      </button>
+      </button> */}
     </header>
   );
 }
