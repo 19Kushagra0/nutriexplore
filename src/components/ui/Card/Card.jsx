@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import style from "../CardContainer/CardContainer.module.css";
 
 const FALLBACK_IMG =
@@ -22,7 +23,11 @@ export default function Card({ el }) {
   );
 
   return (
-    <div className={style.card}>
+    <Link
+      href={`/product/${el.code}`}
+      className={style.card}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <div className="">
         {el.nutriscore_grade && (
           <div
@@ -79,6 +84,6 @@ export default function Card({ el }) {
         </div>
         {/* <button className={style.CartButton}>+ Cart</button> */}
       </div>
-    </div>
+    </Link>
   );
 }

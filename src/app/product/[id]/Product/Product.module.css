@@ -1,0 +1,459 @@
+.container {
+  padding: 95px 10%;
+  padding-bottom: 60px;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+/* ── Loading skeleton ── */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.loadingBar {
+  width: 100%;
+  height: 22px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #e8e0d5 25%, #f5f0e8 50%, #e8e0d5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Not found ── */
+.notFound {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #9a8674;
+  margin-top: 40px;
+}
+
+/* ── Back button ── */
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 16px;
+  border-radius: 8px;
+
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #2d1f0e;
+
+  background-color: transparent;
+  border: 1.5px solid #2d1f0e;
+
+  margin-bottom: 32px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.backButton:hover {
+  background-color: #2d1f0e;
+  color: #f5f0e8;
+}
+
+.backButton:active {
+  transform: scale(0.95);
+  background-color: #1e1509;
+  color: #f5f0e8;
+}
+
+/* ── Two-column layout ── */
+.productLayout {
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+/* ── Left: Image panel ── */
+.imagePanel {
+  flex: 0 0 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background-color: #b8a898;
+  box-shadow: 0 4px 20px rgba(45, 31, 14, 0.1);
+}
+
+.gradeBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 9;
+
+  padding: 0 12px;
+  min-width: 42px;
+  height: 42px;
+  border-radius: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Nutri-score display card */
+.nutriCard {
+  background-color: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(45, 31, 14, 0.07);
+}
+
+.nutriCardHeader {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #9a8674;
+  margin-bottom: 14px;
+}
+
+.nutriLetters {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.nutriLetter {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 800;
+  font-family: "Times New Roman", Times, serif;
+
+  transition: transform 0.2s ease;
+}
+
+.nutriScoreRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.nutriBar {
+  flex: 1;
+  height: 7px;
+  border-radius: 10px;
+  background-color: #f0ebe3;
+  overflow: hidden;
+}
+
+.nutriBarFill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.nutriScoreNumber {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b5740;
+  white-space: nowrap;
+}
+
+.nutriLabel {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+/* ── Right: Details panel ── */
+.detailsPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.categoryTag {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9a8674;
+  margin-bottom: 10px;
+}
+
+.productName {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 32px;
+  line-height: 42px;
+  font-weight: 700;
+  color: #2d1f0e;
+  margin: 0 0 10px 0;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.brandLabel {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  color: #b8a898;
+}
+
+.brandName {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b5740;
+}
+
+.quantityTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background-color: #f0ebe3;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b5740;
+  margin-bottom: 20px;
+}
+
+/* ── Divider ── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e8e0d5;
+  margin: 20px 0;
+}
+
+/* ── Section title ── */
+.sectionTitle {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #9a8674;
+  margin-bottom: 14px;
+}
+
+/* ── Nutrition facts grid ── */
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background-color: #e8e0d5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.nutritionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px;
+  background-color: white;
+  gap: 4px;
+}
+
+.nutritionLabel {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #9a8674;
+}
+
+.nutritionValue {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2d1f0e;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.nutritionUnit {
+  font-size: 10px;
+  font-weight: 500;
+  color: #b8a898;
+}
+
+.servingNote {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+  color: #b8a898;
+  margin-top: 10px;
+  letter-spacing: 0.3px;
+}
+
+/* ── Ingredients ── */
+.infoSection {
+  margin-bottom: 4px;
+}
+
+.ingredientsText {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  line-height: 22px;
+  color: #6b5740;
+}
+
+/* ── Info grid (packaging, labels, etc.) ── */
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.infoLabel {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #9a8674;
+  min-width: 80px;
+  padding-top: 1px;
+}
+
+.infoValue {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  color: #6b5740;
+  line-height: 20px;
+}
+
+/* ── Category pills ── */
+.categoryPills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.categoryPill {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1.5px solid #e8e0d5;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b5740;
+  background-color: white;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.categoryPill:hover {
+  border-color: #c8b89a;
+  background-color: #f5f0e8;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1300px) {
+  .container {
+    padding: 90px 5%;
+    padding-bottom: 60px;
+  }
+
+  .imagePanel {
+    flex: 0 0 320px;
+  }
+
+  .productName {
+    font-size: 26px;
+    line-height: 36px;
+  }
+}
+
+@media (max-width: 900px) {
+  .productLayout {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .imagePanel {
+    flex: unset;
+    width: 100%;
+  }
+
+  .imageWrapper {
+    height: 300px;
+  }
+
+  .nutritionGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 100px 5% 60px;
+  }
+
+  .productName {
+    font-size: 22px;
+    line-height: 32px;
+  }
+
+  .nutritionGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .imageWrapper {
+    height: 260px;
+  }
+}

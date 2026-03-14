@@ -63,3 +63,33 @@ export async function searchProducts(query, page = 1, signal) {
     return [];
   }
 }
+
+export async function getProductByBarcode(code) {
+  try {
+    const res = await fetch(
+      `https://world.openfoodfacts.org/api/v2/product/${code}`,
+      {
+        headers: {
+          "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
+        },
+      },
+    );
+
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("text/html")) {
+      console.error("API returned HTML instead of JSON. Status:", res.status);
+      return null;
+    }
+
+    if (!res.ok) {
+      console.error("API Error Status:", res.status);
+      return null;
+    }
+
+    const data = await res.json();
+    return data.product || null;
+  } catch (error) {
+    console.error("Fetch error in getProductByBarcode:", error);
+    return null;
+  }
+}
