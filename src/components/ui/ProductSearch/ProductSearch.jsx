@@ -1,14 +1,27 @@
 "use client";
+import { useRouter } from "next/navigation";
+
 import React, { useState } from "react";
 import style from "./ProductSearch.module.css";
 import Image from "next/image";
 import { useShopStore } from "@/store/shopStore";
 
 export default function ProductSearch() {
+  const router = useRouter();
+  const [searchValue, setSearchValue] = useState("");
+
   const { setFilters } = useShopStore();
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortValue, setSortValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
+
+  const searchButton = (e) => {
+    e.preventDefault();
+    if (searchValue.trim() !== "") {
+      setSearchValue("");
+      router.push(`/search?q=${searchValue}`);
+    }
+  };
 
   const appyButton = () => {
     setFilters(sortValue, categoryValue);
@@ -21,7 +34,7 @@ export default function ProductSearch() {
   return (
     <section className={style.ProductSearch}>
       {/* ── Top bar: search input + filter button ── */}
-      <div className={style.searchFilterContainer}>
+      <form onSubmit={searchButton} className={style.searchFilterContainer}>
         <div className={style.searchContainer}>
           <Image
             width={20}
@@ -34,9 +47,13 @@ export default function ProductSearch() {
             type="text"
             placeholder="Search products…"
             className={style.searchContainerInput}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
           {/* Search submit button */}
-          <button className={style.searchButton}>Search</button>
+          <button type="submit" className={style.searchButton}>
+            Search
+          </button>
         </div>
 
         {/* Filter toggle button */}
@@ -53,7 +70,7 @@ export default function ProductSearch() {
             src={"/icons/filter.svg"}
           />
         </button>
-      </div>
+      </form>
 
       {/* ── Collapsible filter / sort panel ── */}
       <div
