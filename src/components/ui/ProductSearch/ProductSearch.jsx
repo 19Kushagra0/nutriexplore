@@ -19,6 +19,7 @@ export default function ProductSearch() {
     e.preventDefault();
     if (searchValue.trim() !== "") {
       setSearchValue("");
+      setFilters("", "");
       router.push(`/search?q=${searchValue}`);
     }
   };
