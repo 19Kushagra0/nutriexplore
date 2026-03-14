@@ -17,15 +17,15 @@ export function sortAndFilterProducts(products, sort, category) {
   if (sort === "name_asc") {
     // A to Z
     displayedProducts.sort((a, b) => {
-      const nameA = a.product_name || "";
-      const nameB = b.product_name || "";
+      const nameA = a.product_name || "z";
+      const nameB = b.product_name || "z";
       return nameA.localeCompare(nameB);
     });
   } else if (sort === "name_desc") {
     // Z to A
     displayedProducts.sort((a, b) => {
-      const nameA = a.product_name || "";
-      const nameB = b.product_name || "";
+      const nameA = a.product_name || "a";
+      const nameB = b.product_name || "a";
       return nameB.localeCompare(nameA);
     });
   } else if (sort === "grade_asc") {
