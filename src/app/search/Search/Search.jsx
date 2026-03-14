@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import style from "./Search.module.css";
+import cardStyle from "@/components/ui/CardContainer/CardContainer.module.css";
 import ProductSearch from "@/components/ui/ProductSearch/ProductSearch";
 import Card from "@/components/ui/Card/Card";
 import { useSearchParams } from "next/navigation";
@@ -9,100 +10,139 @@ import { useInView } from "react-intersection-observer";
 import { useShopStore } from "@/store/shopStore";
 import { sortAndFilterProducts } from "@/lib/productUtils";
 
-// Placeholder: we will replace this with real search results later
-
 export default function Search() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { activeSort, activeCategory } = useShopStore();
-  const [hasMore, setHasMore] = useState(false); // guard for infinite scroll
-  // New states for infinite scroll
-  const [page, setPage] = useState(1);
+
+  const {
+    activeSort,
+    activeCategory,
+    searchQuery,
+    searchResults,
+    searchPage,
+    searchHasMore,
+    searchLoading,
+    setSearchQuery,
+    resetSearch,
+    setSearchPage,
+    setSearchHasMore,
+    setSearchLoading,
+    addSearchResults,
+  } = useShopStore();
+
   const { ref, inView } = useInView({ rootMargin: "2000px" });
 
-  // 1. Reset everything when the search query changes!
-  useEffect(() => {
-    setProducts([]); // Clear the old search results
-    setPage(1); // Reset the infinite scroll back to page 1
-    setHasMore(false); // Disable scroll trigger until page 1 loads
-  }, [query]);
+  const lastFetchedPage = useRef(searchPage);
+  const lastFetchedQuery = useRef(searchQuery);
 
-  // 2. Intersection observer — only advance the page when hasMore is ready
+  // Sync state when query changes
   useEffect(() => {
-    if (inView && !loading && hasMore) {
-      setPage((prevPage) => prevPage + 1);
+    if (query !== searchQuery) {
+      setSearchQuery(query);
+      resetSearch();
+      lastFetchedPage.current = 0;
+      lastFetchedQuery.current = query;
     }
-  }, [inView, loading, hasMore]);
+  }, [query, searchQuery, resetSearch, setSearchQuery]);
 
-  // 3. Your existing fetchSearchResults useEffect
-  // ...
-
+  // Handle infinite scroll
   useEffect(() => {
-    // 1. Create the controller right inside the useEffect
+    if (inView && !searchLoading && searchHasMore) {
+      setSearchPage(searchPage + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView, searchLoading, searchHasMore, setSearchPage]);
+
+  // Fetch data
+  useEffect(() => {
+    if (!query) return;
+
+    // Prevent fetching if Zustand state hasn't synced with the new query yet
+    if (query !== searchQuery) return;
+
+    // Prevent double fetches for the same page/query
+    if (
+      query === lastFetchedQuery.current &&
+      searchPage <= lastFetchedPage.current
+    ) {
+      return;
+    }
+
     const controller = new AbortController();
 
     const fetchSearchResults = async () => {
-      if (!query) return;
-      setLoading(true);
+      setSearchLoading(true);
       try {
-        // 2. Pass the controller's signal to our search API
-        const results = await searchProducts(query, page, controller.signal);
+        const results = await searchProducts(query, searchPage, controller.signal);
 
-        if (page === 1) {
-          setProducts(results);
-        } else {
-          setProducts((prev) => [...prev, ...results]);
-        }
-        setHasMore(results.length > 0); // enable scroll only when there are results
-        setLoading(false);
+        lastFetchedQuery.current = query;
+        lastFetchedPage.current = searchPage;
+
+        addSearchResults(results);
+        setSearchHasMore(results.length > 0);
+        setSearchLoading(false);
       } catch (error) {
-        // 3. IMPORTANT: If the fetch is cancelled, do nothing — not even setLoading(false)!
-        // `finally` would have run setLoading(false) even on AbortError, causing a flash
-        // of "No products found" before the new request's results arrive.
         if (error.name === "AbortError") {
           return;
         }
-        // Real error: stop loading so the empty state is shown
-        setLoading(false);
+        setSearchLoading(false);
       }
     };
 
     fetchSearchResults();
 
-    // 4. Cleanup function: Abort the previous fetch if you type a new letter
     return () => {
       controller.abort();
     };
-  }, [query, page]);
+  }, [
+    query,
+    searchQuery,
+    searchPage,
+    addSearchResults,
+    setSearchHasMore,
+    setSearchLoading,
+  ]);
 
   return (
     <div className={style.container}>
       <ProductSearch />
 
       {/* ── Results Logic ── */}
-      {loading && products.length === 0 ? (
+      {searchLoading && searchResults.length === 0 ? (
         <p className={style.noResults}>Searching...</p>
-      ) : products.length === 0 ? (
+      ) : searchResults.length === 0 &&
+        query === lastFetchedQuery.current &&
+        lastFetchedPage.current > 0 ? (
         <p className={style.noResults}>
           {query
             ? "No products found. Try a different word!"
             : "Try searching for something!"}
         </p>
+      ) : searchResults.length === 0 ? (
+        <p className={style.noResults}>
+          {!query ? "Try searching for something!" : "Searching..."}
+        </p>
       ) : (
-        <div className={style.cardContainer}>
-          {sortAndFilterProducts(products, activeSort, activeCategory).map(
+        <div className={cardStyle.cardContainer}>
+          {sortAndFilterProducts(searchResults, activeSort, activeCategory).map(
             (el) => (
               <Card key={el.code} el={el} />
             ),
           )}
+          <div className={cardStyle.ghost}></div>
+          <div className={cardStyle.ghost}></div>
+          <div className={cardStyle.ghost}></div>
+          <div className={cardStyle.ghost}></div>
         </div>
       )}
 
-      {products.length > 0 && (
+      {searchResults.length > 0 && (
         <div ref={ref} className="w-full h-fit text-center py-8">
-          {loading ? "Loading more..." : "Scroll down to load more"}
+          {searchLoading
+            ? "Loading more..."
+            : searchHasMore
+              ? "Scroll down to load more"
+              : "No more products"}
         </div>
       )}
     </div>
