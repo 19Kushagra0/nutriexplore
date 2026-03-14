@@ -36,47 +36,54 @@ export default function Search() {
   // ...
 
   useEffect(() => {
-    if (inView && !loading) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  }, [inView, loading]);
+    // 1. Create the controller right inside the useEffect
+    const controller = new AbortController();
 
-  useEffect(() => {
     const fetchSearchResults = async () => {
       if (!query) return;
       setLoading(true);
       try {
-        // Pass the current page down to your fetch function!
-        const results = await searchProducts(query, page);
+        // 2. Pass the controller's signal to our search API
+        const results = await searchProducts(query, page, controller.signal);
 
         if (page === 1) {
-          // If it's the first page, replace the array
           setProducts(results);
         } else {
-          // If it's page 2, 3, etc., add the new results to the existing ones
           setProducts((prev) => [...prev, ...results]);
         }
+        setLoading(false);
       } catch (error) {
-        console.error("Failed to fetch search results", error);
-      } finally {
+        // 3. IMPORTANT: If the fetch is cancelled, do nothing — not even setLoading(false)!
+        // `finally` would have run setLoading(false) even on AbortError, causing a flash
+        // of "No products found" before the new request's results arrive.
+        if (error.name === "AbortError") {
+          return;
+        }
+        // Real error: stop loading so the empty state is shown
         setLoading(false);
       }
     };
 
     fetchSearchResults();
-  }, [query, page]); // Re-run when either the query OR the page changes
+
+    // 4. Cleanup function: Abort the previous fetch if you type a new letter
+    return () => {
+      controller.abort();
+    };
+  }, [query, page]);
 
   return (
     <div className={style.container}>
       <ProductSearch />
 
-      {/* ── Search results heading ── */}
-      <p className={style.searchHeading}>Search Results</p>
-
-      {/* ── Cards ── */}
-      {products.length === 0 ? (
+      {/* ── Results Logic ── */}
+      {loading && products.length === 0 ? (
+        <p className={style.noResults}>Searching...</p>
+      ) : products.length === 0 ? (
         <p className={style.noResults}>
-          No products found. Try searching for something!
+          {query
+            ? "No products found. Try a different word!"
+            : "Try searching for something!"}
         </p>
       ) : (
         <div className={style.cardContainer}>
