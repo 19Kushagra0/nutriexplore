@@ -3,7 +3,7 @@
 export async function getProducts(page = 1) {
   try {
     const res = await fetch(
-      `https://world.openfoodfacts.org/api/v2/search?page=${page}&page_size=75`,
+      `https://world.openfoodfacts.org/api/v2/search?page=${page}&page_size=25`,
       {
         headers: {
           "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
