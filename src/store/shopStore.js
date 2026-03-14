@@ -26,4 +26,28 @@ export const useShopStore = create((set) => ({
     }),
 
   setPage: (page) => set({ page }),
+
+  // Search State
+  searchQuery: "",
+  searchResults: [],
+  searchPage: 1,
+  searchHasMore: false,
+  searchLoading: false,
+
+  setSearchQuery: (query) => set({ searchQuery: query }),
+  resetSearch: () =>
+    set({ searchResults: [], searchPage: 1, searchHasMore: false }),
+  setSearchPage: (page) => set({ searchPage: page }),
+  setSearchHasMore: (hasMore) => set({ searchHasMore: hasMore }),
+  setSearchLoading: (loading) => set({ searchLoading: loading }),
+  addSearchResults: (newResults) =>
+    set((state) => {
+      const existingCodes = new Set(state.searchResults.map((p) => p.code));
+      const uniqueNewProducts = newResults.filter(
+        (p) => !existingCodes.has(p.code)
+      );
+      return {
+        searchResults: [...state.searchResults, ...uniqueNewProducts],
+      };
+    }),
 }));
