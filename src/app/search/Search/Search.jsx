@@ -14,23 +14,24 @@ export default function Search() {
   const query = searchParams.get("q");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log(query);
+  const [hasMore, setHasMore] = useState(false); // guard for infinite scroll
   // New states for infinite scroll
   const [page, setPage] = useState(1);
   const { ref, inView } = useInView({ rootMargin: "2000px" });
 
   // 1. Reset everything when the search query changes!
   useEffect(() => {
-    setProducts([]); // Clear the old search results (the apples)
-    setPage(1); // Reset the infinite scroll back to page 1
+    setProducts([]); // Clear the old search results
+    setPage(1);      // Reset the infinite scroll back to page 1
+    setHasMore(false); // Disable scroll trigger until page 1 loads
   }, [query]);
 
-  // 2. Your existing intersection observer
+  // 2. Intersection observer — only advance the page when hasMore is ready
   useEffect(() => {
-    if (inView && !loading) {
+    if (inView && !loading && hasMore) {
       setPage((prevPage) => prevPage + 1);
     }
-  }, [inView, loading]);
+  }, [inView, loading, hasMore]);
 
   // 3. Your existing fetchSearchResults useEffect
   // ...
@@ -51,6 +52,7 @@ export default function Search() {
         } else {
           setProducts((prev) => [...prev, ...results]);
         }
+        setHasMore(results.length > 0); // enable scroll only when there are results
         setLoading(false);
       } catch (error) {
         // 3. IMPORTANT: If the fetch is cancelled, do nothing — not even setLoading(false)!
