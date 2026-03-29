@@ -22,7 +22,10 @@ export async function POST(req) {
   const result = schema.safeParse(body);
 
   if (!result.success) {
-    return NextResponse.json({ message: "Invalid input" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Invalid email or password" },
+      { status: 400 },
+    );
   }
 
   const { email, password } = result.data;
@@ -44,7 +47,7 @@ export async function POST(req) {
 
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
+        { message: "Invalid email or password" },
         { status: 401 },
       );
     }
