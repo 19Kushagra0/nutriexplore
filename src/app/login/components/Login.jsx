@@ -79,6 +79,22 @@ export default function Login() {
             </p>
           </div>
 
+          {/* Test Credentials Box */}
+          <div style={{
+            background: "rgba(255, 255, 255, 0.05)", 
+            padding: "16px", 
+            borderRadius: "12px", 
+            marginBottom: "24px", 
+            border: "1px solid rgba(255, 255, 255, 0.1)", 
+            fontSize: "14px", 
+            color: "var(--foreground, #e5e7eb)", 
+            textAlign: "center"
+          }}>
+            <p style={{margin: "0 0 8px 0", opacity: 0.8}}><strong>Test Account Credentials</strong></p>
+            <p style={{margin: "0 0 4px 0", fontFamily: "monospace"}}>test@nutriexplore.com</p>
+            <p style={{margin: 0, fontFamily: "monospace"}}>password123</p>
+          </div>
+
           {/* Show error message if it exists */}
           {error && (
             <div

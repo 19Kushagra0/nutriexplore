@@ -1,13 +1,16 @@
 export async function getProducts(page = 1) {
   try {
+    const isServer = typeof window === 'undefined';
+    const options = isServer ? {
+      headers: {
+        "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
+      },
+      next: { revalidate: 3600 },
+    } : {};
+
     const res = await fetch(
       `https://world.openfoodfacts.org/api/v2/search?page=${page}&page_size=25`,
-      {
-        headers: {
-          "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
-        },
-        next: { revalidate: 3600 },
-      },
+      options
     );
 
     const contentType = res.headers.get("content-type");
@@ -32,14 +35,19 @@ export async function getProducts(page = 1) {
 export async function searchProducts(query, page = 1, signal) {
   try {
     // Note the URL change here to use search_terms!
-    const res = await fetch(
-      `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&action=process&json=1&page=${page}&page_size=25`,
-      {
+    const isServer = typeof window === 'undefined';
+    const options = {
+      ...(isServer && {
         headers: {
           "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
         },
-        signal: signal,
-      },
+      }),
+      signal: signal,
+    };
+
+    const res = await fetch(
+      `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&action=process&json=1&page=${page}&page_size=25`,
+      options
     );
 
     const contentType = res.headers.get("content-type");
@@ -66,13 +74,16 @@ export async function searchProducts(query, page = 1, signal) {
 
 export async function getProductByBarcode(code) {
   try {
+    const isServer = typeof window === 'undefined';
+    const options = isServer ? {
+      headers: {
+        "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
+      },
+    } : {};
+
     const res = await fetch(
       `https://world.openfoodfacts.org/api/v2/product/${code}`,
-      {
-        headers: {
-          "User-Agent": "NutriExploreApp/1.0 (NutriExplore@example.com)",
-        },
-      },
+      options
     );
 
     const contentType = res.headers.get("content-type");
